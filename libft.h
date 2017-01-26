@@ -6,7 +6,7 @@
 /*   By: tzhou <tzhou@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/28 13:29:11 by tzhou             #+#    #+#             */
-/*   Updated: 2016/12/05 19:07:06 by tzhou            ###   ########.fr       */
+/*   Updated: 2017/01/24 12:45:52 by tzhou            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,5 +89,7 @@ void				ft_putnchar(char c, int n);
 void				ft_print_memory(const void *addr, size_t size);
 int					ft_isupper(int c);
 int					ft_islower(int c);
-
+size_t				ft_memlocate(const void *s, int c, size_t n);
+size_t				ft_strlocate(const char *s, int c);
+char				*ft_strndup(const char *s1, size_t n);
 #endif

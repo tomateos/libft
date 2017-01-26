@@ -1,36 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_memchr.c                                        :+:      :+:    :+:   */
+/*   ft_strndup.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tzhou <tzhou@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/12/03 17:21:25 by tzhou             #+#    #+#             */
-/*   Updated: 2017/01/25 20:44:32 by tzhou            ###   ########.fr       */
+/*   Created: 2017/01/24 12:27:42 by tzhou             #+#    #+#             */
+/*   Updated: 2017/01/25 22:08:28 by tzhou            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
 /*
-** Follows the behavior of memchr from libc. Locates the first char c within the
-** first n bytes of s. For more info, "man memchr".
+** Follows the behavior of strndup from libc. Allocates and copies the first n
+** chars of s1. For more info, "man strndup".
 */
 
-void	*ft_memchr(const void *s, int c, size_t n)
+char	*ft_strndup(const char *s1, size_t n)
 {
-	unsigned char	*copy;
-	unsigned char	test;
-	size_t			i;
+	char	*s2;
+	size_t	i;
 
-	test = (unsigned char)c;
-	copy = (unsigned char*)s;
+	if (!(s2 = (char*)malloc(sizeof(char) * (n + 1))))
+		return (NULL);
 	i = 0;
-	while (i < n)
+	while (i < n && s1[i])
 	{
-		if (copy[i] == test)
-			return ((void*)&copy[i]);
+		s2[i] = s1[i];
 		i++;
 	}
-	return (NULL);
+	s2[i] = '\0';
+	return (s2);
 }
