@@ -6,7 +6,7 @@
 /*   By: tzhou <tzhou@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/02 16:21:56 by tzhou             #+#    #+#             */
-/*   Updated: 2016/12/18 22:37:17 by tzhou            ###   ########.fr       */
+/*   Updated: 2017/08/01 21:08:51 by tzhou            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,22 @@
 ** Allocates an array of strings created by splitting string s with delimiter c.
 */
 
+static void	free_words(char **words)
+{
+	int	i;
+
+	i = 0;
+	while (words[i])
+		free(words[i++]);
+	free(words);
+}
+
 static int	get_word_count(char const *s, char c)
 {
 	int	count;
 
+	if (!s)
+		return (-1);
 	count = 0;
 	while (*s)
 	{
@@ -53,7 +65,8 @@ static char	*get_word(char const *s, char c)
 	char	*word;
 	int		i;
 
-	word = (char*)malloc(sizeof(char) * (get_word_len(s, c) + 1));
+	if (!(word = (char*)malloc(sizeof(char) * (get_word_len(s, c) + 1))))
+		return (NULL);
 	i = 0;
 	while (*s != c && *s)
 		word[i++] = *(s++);
@@ -67,12 +80,9 @@ char		**ft_strsplit(char const *s, char c)
 	char	**words;
 	int		i;
 
-	if (!s)
-		return (NULL);
 	count = get_word_count(s, c);
-	words = (char**)malloc(sizeof(char*) * (count + 1));
-	if (!words)
-		return (0);
+	if (count < 0 || !(words = (char**)malloc(sizeof(char*) * (count + 1))))
+		return (NULL);
 	i = 0;
 	while (i <= count && *s)
 	{
@@ -80,7 +90,11 @@ char		**ft_strsplit(char const *s, char c)
 			s++;
 		else
 		{
-			words[i++] = get_word(s, c);
+			if (!(words[i++] = get_word(s, c)))
+			{
+				free_words(words);
+				return (NULL);
+			}
 			while (*s != c && *s)
 				s++;
 		}
